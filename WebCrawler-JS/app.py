@@ -8,10 +8,14 @@ import datetime
 
 
 if __name__ == '__main__':
+    # set url
     url = sys.argv[0]
+    # get html document
     text = get_html_doc(sys.argv[1])
+    # parse html to dict
     parse_html = ParseHtml(text)
     result = parse_html.get_result()
+    # list articles
     for item in result.get("article_list"):
         dao = Article()
         dao.name = item["title"]
