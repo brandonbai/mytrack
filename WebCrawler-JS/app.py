@@ -2,7 +2,9 @@
 
 from util.htmlparser import ParseHtml
 from util.articleget import get_html_doc
+from storage.article import Article
 import sys
+import datetime
 
 
 if __name__ == '__main__':
@@ -10,6 +12,13 @@ if __name__ == '__main__':
     text = get_html_doc(sys.argv[1])
     parse_html = ParseHtml(text)
     result = parse_html.get_result()
-    print("title: %s" % result.get("title"))
-    for i in result.get("article_list"):
-        print("article: {}".format(i))
+    for item in result.get("article_list"):
+        dao = Article()
+        dao.name = item["title"]
+        dao.read = item["read"]
+        dao.like = item["like"]
+        dao.comment = item["comments"]
+        dao.create_time = datetime.date.today()
+        dao.status = True
+        dao.save()
+
