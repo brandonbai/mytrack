@@ -11,16 +11,16 @@ class ParseHtml(object):
         self.__dict = dict()
         
     def get_result(self):
-        soup = BeautifulSoup(self.html_doc, "html.parser", from_encoding="utf8")
+        soup = BeautifulSoup(self.html_doc, "html.parser")
         self.__dict['title'] = soup.title.get_text()
         articles = soup.find_all("li", id=re.compile("note"))
         article_list = []
         for article in articles:
             article_obj = dict()
             article_obj["title"] = article.find("a", class_="title").get_text()
-            article_obj["read"] = article.find("i", class_="ic-list-read").parent.get_text()
-            article_obj["comments"] = article.find("i", class_="ic-list-comments").parent.get_text()
-            article_obj["like"] = article.find("i", class_="ic-list-like").parent.get_text()
+            article_obj["read"] = article.find("i", class_="ic-list-read").parent.get_text().replace('\n', '')
+            article_obj["comments"] = article.find("i", class_="ic-list-comments").parent.get_text().replace('\n', '')
+            article_obj["like"] = article.find("i", class_="ic-list-like").parent.get_text().replace('\n', '')
             article_list.append(article_obj)
         self.__dict['article_list'] = article_list
         return self.__dict
